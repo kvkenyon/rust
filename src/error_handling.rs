@@ -59,3 +59,16 @@ pub fn read_username_from_file_even_shorter(filename: &String) -> Result<String,
     File::open(filename)?.read_to_string(&mut username)?;
     Ok(username)
 }
+
+pub fn test() {
+    let username = read_username_from_file_shorter(&String::from("username.txt"));
+    match username {
+        Ok(un) => println!("Username: {un}"),
+        Err(e) => panic!("There was an error reaading the username: {e:?}"),
+    }
+    let username = read_username_from_file_even_shorter(&String::from("username.txt"));
+    match username {
+        Ok(un) => println!("Username: {un}"),
+        Err(e) => panic!("There was an error reaading the username: {e:?}"),
+    }
+}

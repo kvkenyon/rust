@@ -1,15 +1,17 @@
+use crate::spreadsheet_cell;
+
 pub fn test() {
     let row = vec![
-        super::SpreadsheetCell::Int(32),
-        super::SpreadsheetCell::Float(1.2),
-        super::SpreadsheetCell::Text(String::from("Hello, World!")),
+        spreadsheet_cell::SpreadsheetCell::Int(32),
+        spreadsheet_cell::SpreadsheetCell::Float(1.2),
+        spreadsheet_cell::SpreadsheetCell::Text(String::from("Hello, World!")),
     ];
 
     for col in row.iter() {
         match col {
-            super::SpreadsheetCell::Int(x) => println!("an int: {}", x),
-            super::SpreadsheetCell::Float(x) => println!("a float: {}", x),
-            super::SpreadsheetCell::Text(x) => println!("a string: {}", x),
+            spreadsheet_cell::SpreadsheetCell::Int(x) => println!("an int: {}", x),
+            spreadsheet_cell::SpreadsheetCell::Float(x) => println!("a float: {}", x),
+            spreadsheet_cell::SpreadsheetCell::Text(x) => println!("a string: {}", x),
         }
     }
     let mut v: Vec<i32> = vec![1, 2, 3];
@@ -59,6 +61,18 @@ pub fn test() {
 
     let hello = String::from("Здравствуйте");
     println!("len {} = {}", hello, hello.len());
+
+    let mut v = vec![3, 2, 1];
+
+    let med = median(&mut v);
+
+    println!("median={med}");
+
+    let mut v = vec![1, 2, 3, 4];
+    let med = median(&mut v);
+    println!("expected=2.5 actual={med}");
+
+    local_test(&mut v);
 }
 
 pub fn median(v: &mut Vec<i32>) -> f64 {
@@ -70,4 +84,12 @@ pub fn median(v: &mut Vec<i32>) -> f64 {
     }
 
     v[v.len() / 2].into()
+}
+
+fn local_test(v: &mut Vec<i32>) {
+    let n = v.len();
+    for (i, t) in v.iter().enumerate().rev() {
+        println!("i={i} t={t}");
+    }
+    println!("n={n}");
 }
