@@ -1,11 +1,9 @@
-pub mod dicts;
-pub mod error_handling;
-pub mod generics;
-pub mod lifetimes;
-pub mod spreadsheet_cell;
-pub mod testing;
-pub mod traits;
-pub mod vectors;
+use rust_learning::dicts;
+use rust_learning::error_handling;
+use rust_learning::generics;
+use rust_learning::lifetimes;
+use rust_learning::traits;
+use rust_learning::vectors;
 
 fn main() {
     vectors::test();
