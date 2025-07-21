@@ -105,6 +105,18 @@ fn main() {
         Ok(un) => println!("Username: {un}"),
         Err(e) => panic!("There was an error reaading the username: {e:?}"),
     }
+    let username = read_username_from_file_even_shorter(&String::from("username.txt"));
+    match username {
+        Ok(un) => println!("Username: {un}"),
+        Err(e) => panic!("There was an error reaading the username: {e:?}"),
+    }
+
+    let vec = vec![12, 2, 92, 23, 102, -1, 2032, 1, 293, 2013, 2, 231, 2, 23];
+
+    let max = largest(&vec).unwrap_or_else(|error| {
+        panic!("{error}");
+    });
+    println!("The max of {vec:?} is {max}");
 }
 
 fn test(v: &mut Vec<i32>) {
@@ -118,7 +130,7 @@ fn test(v: &mut Vec<i32>) {
 fn error_handling_examples() {
     let file = File::open("hello.txt");
 
-    let file = match file {
+    let _file = match file {
         Ok(f) => f,
 
         Err(e) => match e.kind() {
@@ -166,4 +178,23 @@ fn read_username_from_file_shorter(filename: &String) -> Result<String, io::Erro
     let mut username = String::new();
     username_file.read_to_string(&mut username)?;
     Ok(username)
+}
+
+fn read_username_from_file_even_shorter(filename: &String) -> Result<String, io::Error> {
+    let mut username = String::new();
+    File::open(filename)?.read_to_string(&mut username)?;
+    Ok(username)
+}
+
+fn largest<T: PartialOrd>(v: &[T]) -> Result<&T, &str> {
+    if v.len() == 0 {
+        return Err("Empty array.");
+    }
+    let mut max = &v[0];
+    for i in 1..v.len() {
+        if &v[i] > &max {
+            max = &v[i];
+        }
+    }
+    Ok(max)
 }
