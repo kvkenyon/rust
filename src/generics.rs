@@ -142,4 +142,6 @@ pub fn test() {
     struct_generics();
     enum_generics();
     monomorphization();
+
+    println!("[generics::test] Tests completed...");
 }
