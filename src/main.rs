@@ -2,6 +2,7 @@ use rust_learning::closures;
 use rust_learning::dicts;
 use rust_learning::error_handling;
 use rust_learning::generics;
+use rust_learning::iterators;
 use rust_learning::lifetimes;
 use rust_learning::traits;
 use rust_learning::vectors;
@@ -14,4 +15,5 @@ fn main() {
     traits::test();
     lifetimes::test();
     closures::test();
+    iterators::test();
 }
