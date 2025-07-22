@@ -1,3 +1,4 @@
+use rust_learning::closures;
 use rust_learning::dicts;
 use rust_learning::error_handling;
 use rust_learning::generics;
@@ -12,4 +13,5 @@ fn main() {
     generics::test();
     traits::test();
     lifetimes::test();
+    closures::test();
 }

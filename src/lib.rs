@@ -1,3 +1,4 @@
+pub mod closures;
 pub mod dicts;
 pub mod error_handling;
 pub mod generics;
