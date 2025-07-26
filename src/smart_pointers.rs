@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(Debug)]
 enum List {
     Cons(i32, Box<List>),
@@ -52,6 +54,21 @@ impl<T: Ord> BinaryTree<T> {
     }
 }
 
+impl<T: Ord + fmt::Display> fmt::Display for BinaryTree<T> {
+    fn fmt(&self, dest: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match *self {
+            NonEmpty(ref node) => {
+                writeln!(dest, " {} ", node.element)?;
+                node.left.fmt(dest)?;
+                node.right.fmt(dest)
+            }
+            Empty => {
+                write!(dest, " NIL")
+            }
+        }
+    }
+}
+
 use crate::smart_pointers::BinaryTree::{Empty, NonEmpty};
 use crate::smart_pointers::List::{Cons, Nil};
 
@@ -96,6 +113,7 @@ pub fn test() {
     root.add(-2);
 
     println!("tree: {:?}", root);
+    println!("{}", root);
 
     println!("[SMART_POINTERS] End...");
 }
