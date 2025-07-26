@@ -4,6 +4,7 @@ pub mod error_handling;
 pub mod generics;
 pub mod iterators;
 pub mod lifetimes;
+pub mod smart_pointers;
 pub mod spreadsheet_cell;
 pub mod testing;
 pub mod traits;
