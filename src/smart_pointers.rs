@@ -1,4 +1,5 @@
 use std::fmt;
+use std::ops::Deref;
 
 #[derive(Debug)]
 enum List {
@@ -69,6 +70,22 @@ impl<T: Ord + fmt::Display> fmt::Display for BinaryTree<T> {
     }
 }
 
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &<Self as Deref>::Target {
+        &self.0
+    }
+}
+
 use crate::smart_pointers::BinaryTree::{Empty, NonEmpty};
 use crate::smart_pointers::List::{Cons, Nil};
 
@@ -114,6 +131,20 @@ pub fn test() {
 
     println!("tree: {:?}", root);
     println!("{}", root);
+
+    println!("Deref:");
+    let x = 5;
+    let y = &x;
+    println!("x = {x}");
+    println!("*y = {}", *y);
+
+    let x = 5;
+    let y = Box::new(x);
+    println!("x = {x}");
+    println!("*Box[x] = {}", *y);
+
+    let my_box = MyBox::new(123);
+    println!("{}", *my_box);
 
     println!("[SMART_POINTERS] End...");
 }
