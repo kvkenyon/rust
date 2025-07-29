@@ -146,5 +146,12 @@ pub fn test() {
     let my_box = MyBox::new(123);
     println!("{}", *my_box);
 
+    println!("deref coercion:");
+    let my_box_string = MyBox::new(String::from("Yalla!!"));
+    hello(&my_box_string);
     println!("[SMART_POINTERS] End...");
+}
+
+fn hello(s: &str) {
+    println!("Hello, {s}!");
 }
