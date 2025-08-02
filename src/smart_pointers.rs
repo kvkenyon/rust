@@ -1,5 +1,7 @@
+use std::cell::RefCell;
 use std::fmt;
 use std::ops::Deref;
+use std::rc::Rc;
 
 #[derive(Debug)]
 enum List {
@@ -86,8 +88,14 @@ impl<T> Deref for MyBox<T> {
     }
 }
 
+enum List2 {
+    Cons(i32, Rc<List2>),
+    Nil,
+}
+
 use crate::smart_pointers::BinaryTree::{Empty, NonEmpty};
 use crate::smart_pointers::List::{Cons, Nil};
+use crate::smart_pointers::List2::{Cons as Cons2, Nil as Nil2};
 
 pub fn test() {
     println!("[SMART_POINTERS] Start...");
@@ -149,9 +157,105 @@ pub fn test() {
     println!("deref coercion:");
     let my_box_string = MyBox::new(String::from("Yalla!!"));
     hello(&my_box_string);
+
+    reference_counting();
     println!("[SMART_POINTERS] End...");
 }
 
 fn hello(s: &str) {
     println!("Hello, {s}!");
+}
+
+fn reference_counting() {
+    println!("[REF_COUNTING] start..");
+    let a = Rc::new(Cons2(5, Rc::new(Cons2(10, Rc::new(Nil2)))));
+    println!("Count after initialization: {}", Rc::strong_count(&a));
+    let b = Cons2(3, Rc::clone(&a));
+    println!("Count after creating b: {}", Rc::strong_count(&a));
+    {
+        let c = Cons2(4, Rc::clone(&a));
+        println!("Count after creating c: {}", Rc::strong_count(&a));
+    }
+    println!("Count after c goes out of scope: {}", Rc::strong_count(&a));
+
+    println!("[REF_COUNTING] end..");
+}
+
+pub trait Messenger {
+    fn send(&self, message: &str);
+}
+
+pub struct LimitTracker<'a, T: Messenger> {
+    value: usize,
+    max: usize,
+    messenger: &'a T,
+}
+
+impl<'a, T> LimitTracker<'a, T>
+where
+    T: Messenger,
+{
+    pub fn new(messenger: &'a T, max: usize) -> Self {
+        LimitTracker {
+            value: 0,
+            max,
+            messenger,
+        }
+    }
+
+    pub fn set_value(&mut self, value: usize) {
+        self.value = value;
+        let percentage = self.value as f64 / self.max as f64;
+        if percentage >= 1.0 {
+            self.messenger
+                .send("WARNING! YOU'VE EXCEEDED MAX CAPACTIY!");
+        } else if percentage >= 0.9 {
+            self.messenger
+                .send("You've used more than 90% of your capacity.");
+        } else if percentage >= 0.75 {
+            self.messenger
+                .send("You've used more than 75% of your capacity.");
+        } else if percentage >= 0.25 {
+            self.messenger
+                .send("You've used more than 25% of your capacity.");
+        } else {
+            self.messenger.send(&format!(
+                "You've used more than {:?}% of your capacity.",
+                percentage * 100.0
+            ));
+        }
+    }
+}
+
+pub struct MockMessenger {
+    sent_messages: RefCell<Vec<String>>,
+}
+
+impl MockMessenger {
+    pub fn new() -> Self {
+        MockMessenger {
+            sent_messages: RefCell::new(vec![]),
+        }
+    }
+}
+
+impl Messenger for MockMessenger {
+    fn send(&self, message: &str) {
+        self.sent_messages.borrow_mut().push(String::from(message));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::smart_pointers::{LimitTracker, MockMessenger};
+
+    #[test]
+    fn test_limit_tracker_70_plus() {
+        let messenger = MockMessenger::new();
+        let mut limit_tracker = LimitTracker::new(&messenger, 100);
+
+        limit_tracker.set_value(72);
+
+        assert_eq!(limit_tracker.messenger.sent_messages.borrow().len(), 1);
+    }
 }
