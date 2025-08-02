@@ -245,9 +245,18 @@ impl Messenger for MockMessenger {
     }
 }
 
+#[derive(Debug)]
+enum List3 {
+    Cons3(Rc<RefCell<i32>>, Rc<List3>),
+    Nil3,
+}
+
 #[cfg(test)]
 mod tests {
+    use crate::smart_pointers::List3::{Cons3 as C, Nil3 as N};
     use crate::smart_pointers::{LimitTracker, MockMessenger};
+    use std::cell::RefCell;
+    use std::rc::Rc;
 
     #[test]
     fn test_limit_tracker_70_plus() {
@@ -257,5 +266,21 @@ mod tests {
         limit_tracker.set_value(72);
 
         assert_eq!(limit_tracker.messenger.sent_messages.borrow().len(), 1);
+    }
+
+    #[test]
+    fn test_list3() {
+        let value = Rc::new(RefCell::new(5));
+        let a = Rc::new(C(Rc::clone(&value), Rc::new(N)));
+        let b = C(Rc::new(RefCell::new(3)), Rc::clone(&a));
+        let c = C(Rc::new(RefCell::new(4)), Rc::clone(&a));
+
+        *value.borrow_mut() += 10;
+
+        println!("a after = {a:?}");
+        println!("b after = {b:?}");
+        println!("c after = {c:?}");
+
+        assert_eq!(*value.borrow(), 15);
     }
 }
