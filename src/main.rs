@@ -10,6 +10,7 @@ use rust_learning::smart_pointers;
 use rust_learning::threads;
 use rust_learning::traits;
 use rust_learning::vectors;
+use trpl;
 
 fn main() {
     vectors::test();
@@ -23,5 +24,5 @@ fn main() {
     smart_pointers::test();
     reference_cycles::test();
     threads::test();
-    async_await::test();
+    trpl::run(async_await::test());
 }
