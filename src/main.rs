@@ -13,16 +13,16 @@ use rust_learning::vectors;
 use trpl;
 
 fn main() {
-    vectors::test();
-    dicts::test();
-    error_handling::test();
-    generics::test();
-    traits::test();
-    lifetimes::test();
-    closures::test();
-    iterators::test();
-    smart_pointers::test();
-    reference_cycles::test();
-    threads::test();
+    //vectors::test();
+    //dicts::test();
+    //error_handling::test();
+    //generics::test();
+    //traits::test();
+    //lifetimes::test();
+    //closures::test();
+    //iterators::test();
+    //smart_pointers::test();
+    //reference_cycles::test();
+    //threads::test();
     trpl::run(async_await::test());
 }
