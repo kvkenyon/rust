@@ -6,6 +6,7 @@ use rust_learning::iterators;
 use rust_learning::lifetimes;
 use rust_learning::reference_cycles;
 use rust_learning::smart_pointers;
+use rust_learning::threads;
 use rust_learning::traits;
 use rust_learning::vectors;
 
@@ -20,4 +21,5 @@ fn main() {
     iterators::test();
     smart_pointers::test();
     reference_cycles::test();
+    threads::test();
 }

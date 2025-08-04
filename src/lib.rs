@@ -8,5 +8,6 @@ pub mod reference_cycles;
 pub mod smart_pointers;
 pub mod spreadsheet_cell;
 pub mod testing;
+pub mod threads;
 pub mod traits;
 pub mod vectors;

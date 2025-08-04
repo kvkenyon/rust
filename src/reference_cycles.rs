@@ -1,5 +1,5 @@
 use std::cell::RefCell;
-use std::rc::Rc;
+use std::rc::{Rc, Weak};
 
 #[derive(Debug)]
 enum List {
@@ -20,6 +20,7 @@ impl List {
 struct Node {
     value: i32,
     children: RefCell<Vec<Rc<Node>>>,
+    parent: RefCell<Weak<Node>>,
 }
 
 use crate::reference_cycles::List::{Cons, Nil};
@@ -42,5 +43,30 @@ pub fn test() {
     println!("b ref count after changing a: {}", Rc::strong_count(&b));
     println!("a ref count after changing b: {}", Rc::strong_count(&a));
 
+    build_tree();
+
     println!("[reference_cycles] End...");
+}
+
+fn build_tree() {
+    let leaf = Rc::new(Node {
+        value: 3,
+        children: RefCell::new(vec![]),
+        parent: RefCell::new(Weak::new()),
+    });
+
+    println!("leaf parent: {:?}", leaf.parent.borrow().upgrade());
+
+    let branch = Rc::new(Node {
+        value: 5,
+        children: RefCell::new(vec![Rc::clone(&leaf)]),
+        parent: RefCell::new(Weak::new()),
+    });
+
+    *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+
+    println!("leaf parent: {:?}", leaf.parent.borrow().upgrade());
+
+    println!("Ref count leaf: {}", Rc::strong_count(&leaf));
+    println!("Ref count branch: {}", Rc::strong_count(&branch));
 }
