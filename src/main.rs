@@ -1,3 +1,4 @@
+use rust_learning::async_await;
 use rust_learning::closures;
 use rust_learning::dicts;
 use rust_learning::error_handling;
@@ -22,4 +23,5 @@ fn main() {
     smart_pointers::test();
     reference_cycles::test();
     threads::test();
+    async_await::test();
 }
