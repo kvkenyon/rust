@@ -6,6 +6,7 @@ pub mod generics;
 pub mod iterators;
 pub mod lifetimes;
 pub mod oop;
+pub mod patterns;
 pub mod reference_cycles;
 pub mod smart_pointers;
 pub mod spreadsheet_cell;
