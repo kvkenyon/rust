@@ -6,13 +6,14 @@
 //use rust_learning::iterators;
 //use rust_learning::lifetimes;
 //use rust_learning::oop;
-use rust_learning::patterns;
+//use rust_learning::patterns;
 //use rust_learning::reference_cycles;
 //use rust_learning::smart_pointers;
 //use rust_learning::threads;
 //use rust_learning::traits;
 //use rust_learning::vectors;
 //use trpl;
+use rust_learning::unsafe_rust;
 
 fn main() {
     //vectors::test();
@@ -28,5 +29,6 @@ fn main() {
     //threads::test();
     //trpl::run(async_await::test());
     //oop::test();
-    patterns::test();
+    //patterns::test();
+    unsafe_rust::test();
 }

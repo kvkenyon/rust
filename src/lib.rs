@@ -13,4 +13,5 @@ pub mod spreadsheet_cell;
 pub mod testing;
 pub mod threads;
 pub mod traits;
+pub mod unsafe_rust;
 pub mod vectors;
