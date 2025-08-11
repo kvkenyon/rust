@@ -121,6 +121,11 @@ impl fmt::Display for Wrapper {
     }
 }
 
+fn add_one(n: i32) -> i32 { n + 1}
+fn do_twice(f: fn(i32) -> i32, n: i32) -> i32{
+    f(f(n))
+}
+
 unsafe extern "C" {
     safe fn abs(input: i32) -> i32;
 }
@@ -135,7 +140,6 @@ static HELLO_WORLD: &str = "Hello, World!";
 pub fn test() {
     println!("[UNSAFE] Start...");
     raw_ptrs();
-
     //unsafe {
     //    println!("Absolute value -3 according to C: {}", abs(-3));
     //}
@@ -173,6 +177,10 @@ pub fn test() {
     println!("newtype wrapper...");
     let wrapper_vec = Wrapper(vec![String::from("Hello"), String::from("World")]);
     println!("{}", wrapper_vec);
+
+    println!("function pointers...");
+    let n = 2;
+    println!("{}",do_twice(add_one, n));
 
     println!("[ADVANCED_TRAITS] End...");
 }

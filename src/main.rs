@@ -13,7 +13,8 @@
 //use rust_learning::traits;
 //use rust_learning::vectors;
 //use trpl;
-use rust_learning::unsafe_rust;
+//use rust_learning::unsafe_rust;
+use rust_learning::webserver;
 
 fn main() {
     //vectors::test();
@@ -30,5 +31,6 @@ fn main() {
     //trpl::run(async_await::test());
     //oop::test();
     //patterns::test();
-    unsafe_rust::test();
+    //unsafe_rust::test();
+    webserver::run();
 }
